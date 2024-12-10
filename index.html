@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <title>은비구님의 생일 선물 설문조사</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+           -webkit-tap-highlight-color: transparent;
+       }
+
+       body {
+           background-color: #F5F5F5;
+           min-height: 100vh;
+       }
+
+       .container {
+           max-width: 100%;
+           min-height: 100vh;
+           background: white;
+           padding: 20px;
+           padding-bottom: 80px;
+       }
+
+       .header-image {
+           width: 100%;
+           height: 200px;
+           margin: 0 auto 20px;
+           border-radius: 12px;
+           overflow: hidden;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+       }
+
+       .header-image img {
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+       }
+
+       h1 {
+           text-align: center;
+           color: #1a472a; /* 더 어두운 초록색 */
+           margin: 10px 0;
+           font-size: 1.5rem;
+           line-height: 1.4;
+           word-break: keep-all;
+       }
+
+       .form-group {
+           margin-bottom: 24px;
+       }
+
+       .section-title {
+           padding: 16px 0;
+           font-size: 1.1rem;
+           color: #333;
+           border-bottom: 1px solid #eee;
+           margin-bottom: 16px;
+       }
+
+       .gift-list {
+           display: flex;
+           flex-direction: column;
+           gap: 8px;
+       }
+
+       .gift-item {
+           padding: 16px;
+           background: #F8F8F8;
+           border-radius: 12px;
+           display: flex;
+           align-items: center;
+           gap: 12px;
+           transition: background-color 0.2s;
+       }
+
+       .gift-item:active {
+           background-color: #E8E8E8;
+       }
+
+       .gift-item input[type="radio"] {
+           width: 20px;
+           height: 20px;
+           accent-color: #1a472a; /* radio 버튼 색상도 변경 */
+       }
+
+       .gift-item label {
+           margin: 0;
+           flex: 1;
+           font-size: 1rem;
+           color: #333;
+       }
+
+       .error {
+           color: #FF4466;
+           font-size: 0.85rem;
+           margin-top: 8px;
+           display: none;
+       }
+
+       .submit-button {
+           position: fixed;
+           bottom: 0;
+           left: 0;
+           right: 0;
+           padding: 16px 20px;
+           background: white;
+           box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+       }
+
+       button {
+           width: 100%;
+           background-color: #1a472a; /* 더 어두운 초록색 */
+           color: white;
+           padding: 16px;
+           border: none;
+           border-radius: 12px;
+           font-size: 1rem;
+           font-weight: bold;
+           cursor: pointer;
+       }
+
+       button:active {
+           background-color: #0d2415; /* 버튼 클릭 시 더 어두운 색상 */
+       }
+
+       /* 생일 축하 문구 스타일 */
+       .birthday-message {
+           text-align: center;
+           margin: 10px 0;
+           color: #1a472a;
+           font-size: 1.1rem;
+           font-weight: 600;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <!-- 헤더 이미지 -->
+       <div class="header-image">
+           <img src="img/pngtree-happy-birthday-png-image_7965000.png" alt="생일 축하 이미지">
+       </div>
+       
+       <h1>은비구님의<br>🎁 생일 선물 설문조사 🎁</h1>
+       <p class="birthday-message">은비구님의 생일을 진심으로 축하드립니다! 🎉</p><br>
+       
+
+       <form id="surveyForm" onsubmit="return submitForm(event)">
+           <div class="form-group">
+               <div class="section-title">받고 싶은 선물을 선택해주세요</div>
+               <div class="gift-list">
+                   <div class="gift-item">
+                       <input type="radio" id="gift1" name="gift" value="keyring" required>
+                       <label for="gift1">키링 💍</label>
+                   </div>
+                   <div class="gift-item">
+                       <input type="radio" id="gift2" name="gift" value="leoclothes">
+                       <label for="gift2">레오 옷 👕</label>
+                   </div>
+                   <div class="gift-item">
+                       <input type="radio" id="gift3" name="gift" value="letter">
+                       <label for="gift3">편지 💌</label>
+                   </div>
+                   <div class="gift-item">
+                       <input type="radio" id="gift4" name="gift" value="porkCutlet">
+                       <label for="gift4">돈까스 🥩</label>
+                   </div>
+                   <div class="gift-item">
+                    <input type="radio" id="gift5" name="gift" value="porkCutlet">
+                    <label for="gift5">우리의 사랑 💝</label>
+                </div>
+               </div>
+               <div class="error" id="giftError">선물을 선택해주세요</div>
+           </div>
+
+           <div class="submit-button">
+               <button type="submit">선택 완료하기 💝</button>
+           </div>
+       </form>
+   </div>
+
+   <script>
+        function submitForm(event) {
+            event.preventDefault();
+
+            const selectedGift = document.querySelector('input[name="gift"]:checked');
+            if (!selectedGift) {
+                document.getElementById('giftError').style.display = 'block';
+                return false;
+            } else {
+                document.getElementById('giftError').style.display = 'none';
+            }
+
+            let giftName;
+            switch(selectedGift.value) {
+                case 'keyring': giftName = '키링'; break;
+                case 'leoclothes': giftName = '레오 옷'; break;
+                case 'letter': giftName = '편지'; break;
+                case 'porkCutlet': giftName = '돈까스'; break;
+                default: giftName = selectedGift.value;
+            }
+
+            // 틀린 답변 메시지 배열
+            const wrongMessages = [
+                '다시 한번 생각해보세요! 💭',
+                '틀렸습니다! 다른 선물을 골라주세요 😅',
+                '음... 구님이 원하는 선물이 아닌 것 같아요 🤔',
+                '다른 선물은 어떠신가요? ✨',
+                '조금 더 마음을 담아서 골라주세요! 💝'
+            ];
+
+            if (selectedGift.value === 'letter') {
+                alert('🎉 정답입니다! 🎉\n\n저희의 마음을 읽으셨군요!!');
+                document.getElementById('surveyForm').reset();
+                window.location.href = '/result';
+            } else {
+                // 랜덤하게 틀린 메시지 선택
+                const randomMessage = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
+                alert(randomMessage);
+            }
+
+            return false;
+            }
+   </script>
+</body>
+</html>
